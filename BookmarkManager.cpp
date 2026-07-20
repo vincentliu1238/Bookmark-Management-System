@@ -9,21 +9,13 @@ void BookmarkManager::removeBookmark(int id){
         [id](const Bookmark& b) { return b.id == id; }), bookmarks.end());
 }
 
-void BookmarkManager::updateBookmark(int id, const Bookmark& updatedBookmark){
-    auto it = std::find_if(bookmarks.begin(), bookmarks.end(),
-        [id](const Bookmark& b) { return b.id == id; });
-    if (it != bookmarks.end()) {
-        *it = updatedBookmark;
-    }
-}
-
 Bookmark BookmarkManager::getBookmark(int id) const{
     auto it = std::find_if(bookmarks.begin(), bookmarks.end(),
         [id](const Bookmark& b) { return b.id == id; });
     if (it != bookmarks.end()) {
         return *it;
     }
-    throw std::invalid_argument("Bookmark not found");
+    return Bookmark(); // Return an empty bookmark if not found
 }
 
 std::vector<Bookmark> BookmarkManager::getAllBookmarks() const{

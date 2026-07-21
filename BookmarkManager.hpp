@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Bookmark.hpp"
 
 class BookmarkManager {

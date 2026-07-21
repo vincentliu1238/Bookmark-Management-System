@@ -1,50 +1,61 @@
 #include "BookmarkManager.hpp"
 
 void BookmarkManager::addBookmark(const Bookmark& bookmark) {
-    bookmarks.push_back(bookmark);
+    Bookmark newBookmark = bookmark;
+    newBookmark.id = nextId++;
+    bookmarks.push_back(newBookmark);
 }
 
-void BookmarkManager::removeBookmark(int id){
-    bookmarks.erase(std::remove_if(bookmarks.begin(), bookmarks.end(),
-        [id](const Bookmark& b) { return b.id == id; }), bookmarks.end());
-}
-
-Bookmark BookmarkManager::getBookmark(int id) const{
-    auto it = std::find_if(bookmarks.begin(), bookmarks.end(),
-        [id](const Bookmark& b) { return b.id == id; });
-    if (it != bookmarks.end()) {
-        return *it;
+void BookmarkManager::removeBookmark(int id) {
+    for (size_t i = 0; i < bookmarks.size(); i++) {
+        if (bookmarks[i].id == id) {
+            bookmarks.erase(bookmarks.begin() + i);
+            return;
+        }
     }
-    return Bookmark(); // Return an empty bookmark if not found
 }
 
+Bookmark BookmarkManager::getBookmark(int id) const {
+    for (const auto& bookmark : bookmarks) {
+        if (bookmark.id == id) {
+            return bookmark;
+        }
+    }
+    return Bookmark(); //Return an empty bookmark if not found
+}
 std::vector<Bookmark> BookmarkManager::getAllBookmarks() const{
     return bookmarks;
 }
 
 std::vector<Bookmark> BookmarkManager::searchBookmarks(const std::string& keyword) const{
     std::vector<Bookmark> results;
+
     for (const auto& bookmark : bookmarks) {
         if (bookmark.title.find(keyword) != std::string::npos ||
-            bookmark.description.find(keyword) != std::string::npos) {
+            bookmark.description.find(keyword) != std::string::npos ||
+            bookmark.category.find(keyword) != std::string::npos ||
+            std::find(bookmark.tags.begin(), bookmark.tags.end(), keyword) != bookmark.tags.end()) { 
+                //Keyword was found
             results.push_back(bookmark);
         }
     }
     return results;
 }
 
-void BookmarkManager::markAsFavorite(int id){
-    auto it = std::find_if(bookmarks.begin(), bookmarks.end(),
-        [id](const Bookmark& b) { return b.id == id; });
-    if (it != bookmarks.end()) {
-        it->favorite = true;
+void BookmarkManager::markAsFavorite(int id) {
+    for (auto& bookmark : bookmarks) {
+        if (bookmark.id == id) {
+            bookmark.favorite = true;
+            return;
+        }
     }
 }
-
-void BookmarkManager::unmarkAsFavorite(int id){
-    auto it = std::find_if(bookmarks.begin(), bookmarks.end(),
-        [id](const Bookmark& b) { return b.id == id; });
-    if (it != bookmarks.end()) {
-        it->favorite = false;
+ 
+void BookmarkManager::unmarkAsFavorite(int id) {
+    for (auto& bookmark : bookmarks) {
+        if (bookmark.id == id) {
+            bookmark.favorite = false;
+            return;
+        }
     }
 }

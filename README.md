@@ -1,2 +1,2 @@
 # Bookmark-Management-System
-A system to manage everything you plan to read or have read.
+A system to manage everything that you have bookmarked.

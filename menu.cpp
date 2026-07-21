@@ -1,7 +1,8 @@
 #include "menu.hpp"
-
+#include <iostream>
+ 
 Menu::Menu(BookmarkManager& manager) : manager(manager) {}
-
+ 
 void Menu::printBookmark(const Bookmark& b) {
     std::cout << "[" << b.id << "] " << b.title << " - " << b.url;
     if (b.favorite) std::cout << "  (favorite)";
@@ -21,3 +22,4 @@ void Menu::printMenu() {
                << "0. Exit\n"
                << "Choose an option: ";
 }
+ 

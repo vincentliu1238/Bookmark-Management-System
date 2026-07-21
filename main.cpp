@@ -1,6 +1,8 @@
 #include "BookmarkManager.hpp"
 #include "menu.hpp"
-
+#include <iostream>
+#include <limits>
+ 
 int main() {
     BookmarkManager manager;
     Menu menu(manager);
@@ -11,11 +13,15 @@ int main() {
         std::cin >> choice;
  
         if (std::cin.fail()) {
+
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Please enter a number.\n";
+
             continue;
+
         }
+        
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
  
         switch (choice) {
@@ -32,15 +38,15 @@ int main() {
                 break;
             }
             case 2: {
-                std::cout << "Id to remove: ";
+                std::cout << "Remove: ";
                 int id;
                 std::cin >> id;
                 manager.removeBookmark(id);
-                std::cout << "Bookmark removed (if it existed).\n";
+                std::cout << "Bookmark removed.\n";
                 break;
             }
             case 3: {
-                std::cout << "Id to look up: ";
+                std::cout << "Look up: ";
                 int id;
                 std::cin >> id;
                 Bookmark b = manager.getBookmark(id);
@@ -73,7 +79,7 @@ int main() {
                 break;
             }
             case 6: {
-                std::cout << "Id to mark as favorite: ";
+                std::cout << "Mark as favorite: ";
                 int id;
                 std::cin >> id;
                 manager.markAsFavorite(id);
@@ -81,7 +87,7 @@ int main() {
                 break;
             }
             case 7: {
-                std::cout << "Id to unmark as favorite: ";
+                std::cout << "Unmark as favorite: ";
                 int id;
                 std::cin >> id;
                 manager.unmarkAsFavorite(id);
@@ -89,10 +95,11 @@ int main() {
                 break;
             }
             case 0:
-                std::cout << "Goodbye!\n";
+                std::cout << "Ending program.\n";
                 break;
+
             default:
-                std::cout << "Invalid option, try again.\n";
+                std::cout << "Invalid option.\n";
         }
     }
  
